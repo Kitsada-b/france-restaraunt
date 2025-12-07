@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <title>ร้านอาหารฝรั่งเศส - ระบบสั่งอาหาร</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+        background: #f2f2f2;
+      }
+      .container {
+        width: 420px;
+        margin: auto;
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+      }
+      select,
+      input {
+        width: 100%;
+        padding: 8px;
+        margin-top: 8px;
+        border-radius: 6px;
+      }
+      button {
+        width: 100%;
+        padding: 10px;
+        background: #2c7be5;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        margin-top: 15px;
+        cursor: pointer;
+        font-size: 16px;
+      }
+      .result {
+        margin-top: 20px;
+        background: #e8f5e9;
+        padding: 14px;
+        border-radius: 8px;
+      }
+      h2 {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>🇫🇷 ร้านอาหารฝรั่งเศส | French Restaurant</h2>
+
+      <label>เลือกเมนูอาหารหลัก (Main Course):</label>
+      <select id="mainMenu">
+        <option value="350">1. Beef Bourguignon - 350 บาท</option>
+        <option value="420">2. Duck Confit - 420 บาท</option>
+        <option value="280">3. Ratatouille - 280 บาท</option>
+        <option value="390">4. Coq au Vin - 390 บาท</option>
+        <option value="300">5. Croque Monsieur - 300 บาท</option>
+        <option value="450">6. Bouillabaisse - 450 บาท</option>
+        <option value="380">7. Steak Frites - 380 บาท</option>
+        <option value="200">8. Quiche Lorraine - 200 บาท</option>
+        <option value="320">9. Cassoulet - 320 บาท</option>
+        <option value="250">10. French Onion Soup - 250 บาท</option>
+      </select>
+
+      <label>จำนวน (จาน):</label>
+      <input type="number" id="mainQty" min="1" />
+
+      <hr />
+
+      <label>เลือกเครื่องดื่ม (Drinks):</label>
+      <select id="drinkMenu">
+        <option value="120">1. French Wine - 120 บาท</option>
+        <option value="40">2. Sparkling Water - 40 บาท</option>
+        <option value="80">3. Hot Coffee - 80 บาท</option>
+        <option value="70">4. Fresh Juice - 70 บาท</option>
+      </select>
+
+      <label>จำนวน (แก้ว):</label>
+      <input type="number" id="drinkQty" min="1" />
+
+      <button onclick="calculate()">คำนวณราคาทั้งหมด</button>
+
+      <div id="output" class="result" style="display: none"></div>
+    </div>
+
+    <script>
+      function calculate() {
+        let mainPrice = parseFloat(document.getElementById("mainMenu").value);
+        let mainQty = parseInt(document.getElementById("mainQty").value);
+
+        let drinkPrice = parseFloat(document.getElementById("drinkMenu").value);
+        let drinkQty = parseInt(document.getElementById("drinkQty").value);
+
+        // ตรวจสอบข้อมูลว่าง
+        if (isNaN(mainQty) || isNaN(drinkQty)) {
+          alert("กรุณากรอกจำนวนอาหารและเครื่องดื่มให้ครบ");
+          return;
+        }
+
+        // คำนวณราคา
+        let totalMain = mainPrice * mainQty;
+        let totalDrink = drinkPrice * drinkQty;
+        let total = totalMain + totalDrink;
+
+        // ส่วนลด
+        let discount = total > 500 ? total * 0.1 : 0;
+
+        // ราคาสุทธิ
+        let net = total - discount;
+
+        // แสดงผล
+        let output = document.getElementById("output");
+        output.style.display = "block";
+        output.innerHTML = `
+        <strong>ผลลัพธ์</strong><br><br>
+        ราคาอาหาร: ${totalMain.toFixed(2)} บาท<br>
+        ราคาเครื่องดื่ม: ${totalDrink.toFixed(2)} บาท<br>
+        <hr>
+        ราคารวมก่อนลด: ${total.toFixed(2)} บาท<br>
+        ส่วนลด: ${discount.toFixed(2)} บาท<br>
+        <strong>ราคาที่ต้องจ่าย: ${net.toFixed(2)} บาท</strong>
+    `;
+      }
+    </script>
+  </body>
+</html>
